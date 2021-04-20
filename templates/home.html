@@ -1,0 +1,87 @@
+{% extends "base.html" %}
+
+{% block content %}
+  <main>
+    <div class="container">
+
+      <!--Navbar-->
+      <nav class="navbar navbar-expand-lg mt-3 mb-5" style="background-color: aliceblue; color: black; font-weight: 400;">
+        <!-- Navbar brand -->
+        <span class="navbar-brand" style="font-weight: bold;">Categories:</span>
+        
+        <!-- Collapse button -->
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#basicExampleNav"
+          aria-controls="basicExampleNav" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <!-- Collapsible content -->
+        <div class="collapse navbar-collapse" id="basicExampleNav">
+          <!-- Links -->
+          <ul class="navbar-nav mr-auto">
+            <li class="nav-item active">
+              <a class="nav-link" href="/" style="color: black;">All
+                <span class="sr-only">(current)</span>
+              </a>
+            </li>
+            {% for code, name in cats %}
+              <li class="nav-item">
+                <a class="nav-link" href="/?category={{ code }}" style="color: black;">{{ name }}</a>
+              </li>
+            {% endfor %}
+          </ul>
+          <!-- Links -->
+        </div>
+        <!-- Collapsible content -->
+
+      </nav>
+      <!--/.Navbar-->
+
+      <!--Section: Products v.3-->
+      <section class="text-center mb-4">
+
+        <div class="row wow fadeIn">
+          {% for item in products %}
+          <div class="col-lg-3 col-md-6 mb-4">
+            
+            <div class="card">
+            
+              <div class="view overlay">
+                {% comment %} <img src="https://mdbootstrap.com/img/Photos/Horizontal/E-commerce/Vertical/12.jpg" class="card-img-top" {% endcomment %}
+                <img src="{{ item.image.url }}" class="card-img-top" style="height: 160px; width: 100%;">
+                <a href="{{ item.get_absolute_url }}">
+                  <div class="mask rgba-white-slight"></div>
+                </a>
+              </div>
+
+              <div class="card-body text-left">
+                <a href="" class="grey-text">
+                  <h6>{{ item.get_category_display }}</h5>
+                </a>
+                <h4><strong><a href="{{ item.get_absolute_url }}" style="color: black;">{{ item.title }}</a></strong></h5>
+
+                <h5 class="font-weight-bold red-text">
+                  <strong>₹
+                  {% if item.discount_price %}
+                  {{ item.discount_price }}
+                  {% else %}
+                  {{ item.price }}
+                  {% endif %}
+                  </strong>
+                </h4>
+              </div>
+
+            </div>
+
+          </div>
+          {% endfor %}
+        </div>
+
+      </section>
+
+    </div>
+  </main>
+
+{% endblock content %}
+
+

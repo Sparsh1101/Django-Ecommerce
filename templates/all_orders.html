@@ -1,0 +1,92 @@
+{% extends "base.html" %}
+
+{% block content %}
+<main>
+    <div class="container">
+        <section class="text-center mb-4">
+            <div class="row wow fadeIn">
+                <div class="col-10 offset-1 mt-5">
+                    {% for item in orders.all %}
+                    {% if item.ordered %}
+                    <div class="card mb-5">
+
+                        <div class="card-header d-flex justify-content-around">
+                            <div>
+                                <p class="m-0">ORDER PLACED</p>
+                                <p>{{ item.ordered_date }}</p>
+                            </div>
+                            <div>
+                                <p class="m-0">PLACED BY</p>
+                                <p>{{ item.user }}</p>
+                            </div>
+                            <div>
+                                <p class="m-0">TOTAL</p>
+                                <p><strong>₹</strong>{{ item.get_total }}</p>
+                            </div>
+                            <div>
+                                <p class="m-0">ORDER #{{ item.ref_code }}</p>
+                            </div>
+                        </div>
+
+                        <div class="card-body">
+                            <div style="text-align: left; margin-bottom: 40px; font-weight: bold; font-size: larger;">
+                                {% if item.refund_granted %}
+                                <p>Your refund has been granted</p>
+                                {% elif item.refund_requested %}
+                                <p>Your refund request has been sent</p>
+                                {% elif item.received %}
+                                <p>Delivered</p>
+                                {% elif item.being_delivered %}
+                                <p>Order is on the way</p>
+                                {% else %}
+                                <p>Your Order has been placed</p>
+                                {% endif %}
+                            </div>
+
+                            <div class="d-flex flex-column">
+                                {% for i in item.items.all %}
+                                <div class="d-flex mb-3 align-items-center justify-content-between"
+                                    style="text-align: left;">
+                                    <div class="d-flex">
+                                        <img src="{{ i.item.image.url }}" alt=""
+                                            style="width: 150px; margin-right: 20px;">
+                                        <div>
+                                            <p class="m-0"><b>{{ i.item.title }}</b></p>
+                                            <p class="text-muted m-0">{{ i.item.get_category_display }}</p>
+                                            <p class="m-0"><b>Quantity: </b>{{ i.quantity }}</p>
+                                            {% if i.item.discount_price %}
+                                            <p class="m-0">₹
+                                                {{ i.item.discount_price }}
+                                            </p>
+                                            {% else %}
+                                            <p class="m-0">₹
+                                                {{ i.item.price }}
+                                            </p>
+                                            {% endif %}
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <p>₹{{ i.get_final_price }}</p>
+                                    </div>
+                                    <div>
+                                        <a href="{{ i.item.get_absolute_url }}" class="btn" style="background-color: #112848; color: white;">View Product</a>
+                                    </div>
+                                </div>
+                                {% endfor %}
+                            </div>
+                        </div>
+                        {% if not item.refund_requested %}
+                        <div class="card-footer">
+                            <a href="/request-refund/{{ item.ref_code }}" class="btn btn-primary">Return</a>
+                        </div>
+                        {% endif %}
+                    </div>
+                    {% endif %}
+                    {% endfor %}
+                </div>
+            </div>
+        </section>
+    </div>
+</main>
+
+{% endblock content %}

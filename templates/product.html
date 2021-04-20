@@ -1,0 +1,68 @@
+{% extends "base.html" %}
+
+{% block content %}
+<style>
+  .btn:hover {
+    box-shadow: 0 12px 16px 0 rgba(0, 0, 0, 0.24), 0 17px 50px 0 rgba(0, 0, 0, 0.19);
+  }
+</style>
+
+<main class="my-5 py-4">
+  <div class="container dark-grey-text mt-5">
+
+    <!--Grid row-->
+    <div class="row wow fadeIn">
+
+      <!--Grid column-->
+      <div class="col-md-6 mb-4">
+
+        <img src="{{ object.image.url }}" class="img-fluid" alt="">
+
+      </div>
+      <!--Grid column-->
+
+      <!--Grid column-->
+      <div class="col-md-6 mb-4">
+
+        <!--Content-->
+        <div class="pl-3">
+
+          <div class="mb-1">
+            <p class="mr-1 text-muted">{{ object.get_category_display }}</p>
+          </div>
+
+          <p class="lead font-weight-bold">{{ object.title }}</p>
+
+          <p class="lead">
+            {% if object.discount_price %}
+            <span class="mr-1">
+              <del style="color:red;font-size:18px"><b>₹{{ object.price }}</b></del>
+            </span>
+            <span style="color:red;font-size:18px"><b>₹{{ object.discount_price }}</b></span>
+            {% else %}
+            <span style="color:red;font-size:18px"><b>₹{{ object.price }}</b></span>
+            {% endif %}
+          </p>
+          <p>{{ object.description }}</p>
+          <a href="{{ object.get_add_to_cart_url }}" class="btn btn-md my-0 p"
+            style="border-radius: 12px;border: 2px solid #03015c;">
+            Add to cart
+            <i class="fas fa-shopping-cart ml-1"></i>
+          </a>
+          <a href="{{ object.get_remove_from_cart_url }}" class="btn btn-md my-0 p"
+            style="border-radius: 12px;border: 2px solid #03015c;">
+            Remove from cart
+          </a>
+
+        </div>
+        <!--Content-->
+
+      </div>
+      <!--Grid column-->
+
+    </div>
+
+  </div>
+</main>
+
+{% endblock content %}
