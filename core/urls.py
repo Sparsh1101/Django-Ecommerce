@@ -1,4 +1,7 @@
 from django.urls import path
+from django.views.static import serve
+from django.conf.urls import url
+
 from .views import (
     ItemDetailView,
     CheckoutView,
@@ -26,5 +29,7 @@ urlpatterns = [
          name='remove-single-item-from-cart'),
     path('payment/<payment_option>/', PaymentView.as_view(), name='payment'),
     path('request-refund/<slug>/',
-         RequestRefundView.as_view(), name='request-refund')
+         RequestRefundView.as_view(), name='request-refund'),
+    url(r'^media/(?P<path>.*)$', serve,{'document_root': settings.MEDIA_ROOT}), 
+    url(r'^static/(?P<path>.*)$', serve,{'document_root': settings.STATIC_ROOT}), 
 ]
